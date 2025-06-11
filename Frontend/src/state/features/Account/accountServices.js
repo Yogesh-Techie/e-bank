@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL =
   process.env.NODE_ENV === "production"
-    ? "https://ebank-2t3r.onrender.com/api/account/"
+    ? "http://internal-k8s-ebank-ebankbac-cc56cd60ce-1194148060.us-west-1.elb.amazonaws.com/api/account/"
     : "http://localhost:5000/api/account/";
 
 //Get Account
