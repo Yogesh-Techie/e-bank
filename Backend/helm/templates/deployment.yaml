@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ebank-backend.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "ebank-backend.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "ebank-backend.name" . }}
+    spec:
+      tolerations:
+        - key: backend
+          operator: Equal
+          value: "true"
+          effect:  NoSchedule
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: {{ include "ebank-backend.fullname" . }}-config
